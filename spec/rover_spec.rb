@@ -32,7 +32,7 @@ describe Rover do
 		end
 	end
 
-	describe "when moving forward" do
+	describe "when moving forward2" do
 		context 'heading to north' do
 			it "should increment y" do
 				rover = Rover.new(Position.new(1, 2), 'N')
