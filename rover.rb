@@ -3,7 +3,7 @@ class Rover
 
 	def initialize(position, heading)
 		raise 'Invalid position of rover.' unless position
-		raise 'Invalid heading of rover.' unless heading and ['N', 'S', 'W', 'E'].include?(heading)
+		raise 'Invalid heading of rover.' unless heading and [:N, :W, :S, :E].include?(heading)
 
 		@position = position
 		@heading = heading
@@ -14,22 +14,48 @@ class Rover
 		when 'M'
 			update_position
 		when 'L'
+			rotate_left
 		when 'R'
+			rotate_right
 		end
-
-		
 	end
-
+	
 	def update_position
 		case heading
-		when 'N'
+		when :N
 			@position = @position.increment_y
-		when 'S'
+		when :S
 			@position = @position.decrement_y
-		when 'W'
+		when :W
 			@position = @position.decrement_x
-		when 'E'
+		when :E
 			@position = @position.increment_x
+		end
+	end
+
+	def rotate_left
+		case heading
+		when :N
+			@heading = :W
+		when :W
+			@heading = :S
+		when :S
+			@heading = :E		
+		when :E
+			@heading = :N
+		end
+	end
+
+	def rotate_right
+		case heading
+		when :W
+			@heading = :N
+		when :S
+			@heading = :W
+		when :E
+			@heading = :S
+		when :N
+			@heading = :E
 		end
 	end
 end

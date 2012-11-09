@@ -7,8 +7,8 @@ describe Launcher do
 				@plateau = Plateau.new(5, 5)
 				@launcher = Launcher.new(@plateau)
 
-				@rover = Rover.new(Position.new(3, 3), 'E')
-				@commands = "MMRMMRMRRMR".split
+				@rover = Rover.new(Position.new(3, 3), :E)
+				@commands = "MMRMMRMRRMR".chars
 			end
 
 			it "rover should finish at the right position" do
@@ -18,7 +18,7 @@ describe Launcher do
 
 			it "rover should finish with the right heading" do
 				@launcher.launch @rover, @commands
-				@rover.heading.should eq('S')
+				@rover.heading.should eq(:S)
 			end
 		end
 	end
