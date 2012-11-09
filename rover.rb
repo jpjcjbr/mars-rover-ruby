@@ -1,61 +1,38 @@
+require './heading_to_north_state'
+require './heading_to_south_state'
+require './heading_to_west_state'
+require './heading_to_east_state'
+
 class Rover
-	attr_reader :position, :heading
+	attr_reader :position
 
-	def initialize(position, heading)
-		raise 'Invalid position of rover.' unless position
-		raise 'Invalid heading of rover.' unless heading and [:N, :W, :S, :E].include?(heading)
-
-		@position = position
-		@heading = heading
+	def initialize(position)
+		raise 'Invalid position of rover.' unless position		
+		@position = position		
 	end
 
 	def execute(command)
 		case command
 		when 'M'
-			update_position
+			@position = current_state.move_forward @position
 		when 'L'
-			rotate_left
+			@position = current_state.rotate_left @position
 		when 'R'
-			rotate_right
-		end
-	end
-	
-	def update_position
-		case heading
-		when :N
-			@position = @position.increment_y
-		when :S
-			@position = @position.decrement_y
-		when :W
-			@position = @position.decrement_x
-		when :E
-			@position = @position.increment_x
+			@position = current_state.rotate_right @position
 		end
 	end
 
-	def rotate_left
-		case heading
+	private
+	def current_state
+		case @position.heading
 		when :N
-			@heading = :W
-		when :W
-			@heading = :S
+			return HeadingToNorthState.new
 		when :S
-			@heading = :E		
-		when :E
-			@heading = :N
-		end
-	end
-
-	def rotate_right
-		case heading
+			return HeadingToSouthState.new
 		when :W
-			@heading = :N
-		when :S
-			@heading = :W
+			return HeadingToWestState.new
 		when :E
-			@heading = :S
-		when :N
-			@heading = :E
+			return HeadingToEastState.new
 		end
 	end
 end
